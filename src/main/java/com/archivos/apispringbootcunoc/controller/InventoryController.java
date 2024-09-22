@@ -3,6 +3,7 @@ package com.archivos.apispringbootcunoc.controller;
 import com.archivos.apispringbootcunoc.controller.dto.InventoryProductRequest;
 import com.archivos.apispringbootcunoc.controller.dto.ValueProductRequest;
 import com.archivos.apispringbootcunoc.persistence.entity.ProductEntity;
+import com.archivos.apispringbootcunoc.persistence.entity.ProductInventoryEntity;
 import com.archivos.apispringbootcunoc.service.InventoryService;
 import com.archivos.apispringbootcunoc.service.WarehouseService;
 import com.archivos.apispringbootcunoc.util.JwtUtils;
@@ -48,6 +49,15 @@ public class InventoryController {
         String id_user = extractUserIDFromToken(jwtToken);
         System.out.println("id_user " + id_user);
         inventoryService.moveProducts(request, id_user);
+    }
+
+    @PostMapping("/find-products")
+    public List<ProductInventoryEntity> findProducts(@RequestParam String valor) {
+        String jwtToken = extractJwtFromCookie(httpServletRequest);
+        System.out.println("Token " + jwtToken);
+        String sucursal = extractSucursalFromToken(jwtToken);
+        System.out.println("suscursal " + sucursal);
+        return inventoryService.findProducts(sucursal,valor);
     }
 
     private String extractJwtFromCookie(HttpServletRequest request) {
