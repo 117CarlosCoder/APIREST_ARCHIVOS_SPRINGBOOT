@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface SearchClientRepository extends CrudRepository<ClientEntity, Long> {
-    @Query(value = "SELECT * FROM cajero.buscar_usuario_nit(:p_nit_pattern)", nativeQuery = true)
-    List<ClientEntity> findClientNit(@Param("p_nit_pattern") String nitPattern);
+    @Query(value = "SELECT * FROM cajero.buscar_usuario_nit(:p_nit_pattern, :sucursal)", nativeQuery = true)
+    List<ClientEntity> findClientNit(@Param("p_nit_pattern") String nitPattern,
+                                     @Param("sucursal") String sucursal);
 }

@@ -16,5 +16,6 @@ public class ProductInventoryEntity {
     private Integer pasillo;
     private Integer cantidad_producto;
     private String sucursal_producto;
+    private double precio_producto;
 
 }

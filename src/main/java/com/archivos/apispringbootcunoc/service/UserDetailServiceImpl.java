@@ -11,6 +11,7 @@ import com.archivos.apispringbootcunoc.persistence.repository.UserRepository;
 import com.archivos.apispringbootcunoc.util.JwtUtils;
 import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,6 +26,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -51,6 +53,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) {
 
         UserEntity userEntity = userRepository.findUserEntityByUsername(username).orElseThrow(() -> new UsernameNotFoundException("El usuario " + username + " no existe."));
+
+        if (!userEntity.isEnabled()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "El usuario está deshabilitado.");
+        }
 
         List<SimpleGrantedAuthority> authorityList = new ArrayList<>();
 
@@ -102,6 +108,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         UserEntity userEntity = userRepository.findUserEntityByUsername(authLoginRequest.username())
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + authLoginRequest.username() + " no existe."));
+
 
 
         Authentication authentication = this.authenticate(username, password);

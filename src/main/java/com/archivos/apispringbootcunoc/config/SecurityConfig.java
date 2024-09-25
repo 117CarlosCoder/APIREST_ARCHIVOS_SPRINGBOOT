@@ -47,6 +47,8 @@ public class SecurityConfig {
                     http.requestMatchers(HttpMethod.DELETE, "/warehouse/**").hasAnyRole("WAREHOUSE");
                     http.requestMatchers(HttpMethod.GET, "/inventory/**").hasAnyRole("INVENTORY");
                     http.requestMatchers(HttpMethod.POST, "/inventory/**").hasAnyRole("INVENTORY");
+                    http.requestMatchers(HttpMethod.GET, "/admin/**").hasAnyRole("ADMIN");
+                    http.requestMatchers(HttpMethod.POST, "/admin/**").hasAnyRole("ADMIN");
                     http.requestMatchers(HttpMethod.GET, "/methods/get").hasAnyRole("CASHIER");
                     http.requestMatchers(HttpMethod.POST, "/methods/post").hasAnyRole("ADMIN");
                     http.requestMatchers(HttpMethod.PATCH, "/methods/patch").hasAnyAuthority("REFACTOR");

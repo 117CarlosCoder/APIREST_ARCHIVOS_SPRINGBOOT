@@ -1,5 +1,7 @@
 package com.archivos.apispringbootcunoc.persistence.repository;
 
+import com.archivos.apispringbootcunoc.controller.dto.ProductSelfDto;
+import com.archivos.apispringbootcunoc.persistence.entity.ProductEntity;
 import com.archivos.apispringbootcunoc.persistence.entity.ProductInventoryEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -18,4 +20,9 @@ public interface InventoryProductSelfRepository extends JpaRepository<ProductInv
     List<ProductInventoryEntity> findSelfProducts(
                 @Param("valor") String valor,
                 @Param("sucursal") String sucursal);
+
+
+    @Query(value = "SELECT * FROM inventario.listar_productos_estanteria(:sucursal)", nativeQuery = true)
+    List<ProductInventoryEntity> listProduct(@Param("sucursal") String sucursal);
+
 }
