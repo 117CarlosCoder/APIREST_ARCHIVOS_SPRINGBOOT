@@ -89,7 +89,7 @@ public class CashierController {
 
     @PostMapping("/admin-permission")
     void adminPermission(@RequestBody @Valid AuthLoginRequest userRequest,@RequestParam String id) {
-
+        AuthResponse authResponse = this.userDetailService.loginUser(userRequest);
         UserEntity userEntity = userRepository.findUserEntityByUsername(userRequest.username())
                 .orElseThrow(() -> new UsernameNotFoundException("El usuario " + userRequest.username() + " no existe."));
         userEntity.getRoles().stream()

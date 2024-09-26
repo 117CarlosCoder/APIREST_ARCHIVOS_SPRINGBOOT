@@ -5,6 +5,7 @@ import com.archivos.apispringbootcunoc.controller.dto.AdminUpdateUserRequest;
 import com.archivos.apispringbootcunoc.controller.dto.AuthLoginRequest;
 import com.archivos.apispringbootcunoc.controller.dto.AuthResponse;
 import com.archivos.apispringbootcunoc.persistence.entity.UserEntity;
+import com.archivos.apispringbootcunoc.persistence.entity.UsersAdminEntity;
 import com.archivos.apispringbootcunoc.service.AdminService;
 import com.archivos.apispringbootcunoc.util.JwtUtils;
 import com.auth0.jwt.interfaces.Claim;
@@ -14,11 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -40,6 +39,17 @@ public class AdminController {
     @PostMapping("/get-report")
     void getReports () {
         System.out.println("Getting reports");
+    }
+
+    @GetMapping ("/find-users")
+    public List<UsersAdminEntity> findUser (@RequestParam String valor) {
+        System.out.println("Finding user");
+        System.out.println("Valor " + valor);
+        String jwtToken = extractJwtFromCookie(httpServletRequest);
+        System.out.println("Token " + jwtToken);
+        String sucursal = extractSucursalFromToken(jwtToken);
+        System.out.println("suscursal " + sucursal);
+        return adminService.findUser(valor, sucursal);
     }
 
     @PostMapping("/create-user")

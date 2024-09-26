@@ -3,6 +3,7 @@ package com.archivos.apispringbootcunoc.persistence.repository;
 import com.archivos.apispringbootcunoc.persistence.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -31,5 +32,6 @@ public interface AdminRepository extends JpaRepository<UserEntity, Integer> {
                     @Param("username") String username,
                     @Param("update") Boolean update,
                     @Param("sucursal") String sucursal);
+
 
 }
