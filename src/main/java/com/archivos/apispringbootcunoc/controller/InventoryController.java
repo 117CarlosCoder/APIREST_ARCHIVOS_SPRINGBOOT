@@ -32,7 +32,7 @@ public class InventoryController {
         this.jwtUtils = jwtUtils;
     }
 
-    @PostMapping("/list-products")
+    @GetMapping("/list-products")
     public List<ProductEntity> getProducts(@RequestParam String value) {
         System.out.println("Parametro  " + value);
         String jwtToken = extractJwtFromCookie(httpServletRequest);
@@ -43,15 +43,19 @@ public class InventoryController {
     }
 
     @PostMapping("/move-products")
-    public void moveProducts(@RequestBody InventoryProductRequest request) {
+    public void moveProducts(@RequestBody List<InventoryProductRequest> request) {
+        System.out.println("Request " + request.toString());
         String jwtToken = extractJwtFromCookie(httpServletRequest);
         System.out.println("Token " + jwtToken);
         String id_user = extractUserIDFromToken(jwtToken);
         System.out.println("id_user " + id_user);
-        inventoryService.moveProducts(request, id_user);
+        for (InventoryProductRequest inventoryProductRequest : request) {
+            inventoryService.moveProducts(inventoryProductRequest, id_user);
+        }
+
     }
 
-    @PostMapping("/find-products")
+    @GetMapping("/find-products")
     public List<ProductInventoryEntity> findProducts(@RequestParam String valor) {
         String jwtToken = extractJwtFromCookie(httpServletRequest);
         System.out.println("Token " + jwtToken);
